@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title>Mind worse Share</title>
+	<meta name="keywords" content="关键字列表" />
+	<meta name="description" content="网页描述" />
+	<link rel="stylesheet" type="text/css" href="<?php echo '.' . DIR_PUBLIC;?>/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo '.' . DIR_PUBLIC;?>/css/publish.css" />
+	<style type="text/css"></style>
+	<script type="text/javascript"></script>
+	<script src="../public/js/func.js"></script>
+</head>
+
+<body>
+	<div class="header_wrap">
+		<div id="header" class="auto">
+			<div class="logo">Mind worse Share</div>
+			<div class="nav">
+				<a class="hover" href="../index.php">首页</a>
+				<?php  
+				  	if(isset($_COOKIE['user'])) {
+					  if($_COOKIE['user']=='super_root')
+					  echo '<a href=./root.php>用户管理</a>';
+				} 
+			
+				?>
+			</div>
+			<div class="serarch">
+				<form>
+					<input class="keyword" type="text" name="keyword" placeholder="搜索其实很简单" />
+					<input class="submit" type="submit" name="submit" value="" />
+				</form>
+			</div>
+			<div class="login" style="width: 400px;">
+				<!-- 	用户信息登录判断 -->
+				<?php  
+				  	if(isset($_COOKIE['user'])) {
+				  		echo '<a href="./userInfo.php">&nbsp;欢迎会员' . ' ' . $_COOKIE['user'] . '</a>' . ' ' . '<a href="./logout.php?page=publish">注销</a>';
+				  }else {
+				  	    echo '<a href="./login.php">&nbsp;' . '登录' . '</a>' . ' ' . '<a href="./register.php">注册</a>&nbsp;';
+				} 
+				   ?>
+			</div>
+		</div>
+	</div>
+	<div style="margin-top:55px;"></div>
+	<div id="position" class="auto">
+		<a href="<?php echo '.'.DIR_ROOT;?>index.php">首页</a> &gt;
+	</div>
+
+
+	<div id="publish">
+		<form method="POST" action="./publish_deal.php">
+			<!-- <select name="module_id">
+				<option>web技术</option>
+				<option>军事</option>
+				<option>TJ新天地</option>
+			</select>
+			<input class="title" placeholder="请输入标题" name="pub_title" type="text" />
+			<textarea name="pub_content" class="content"></textarea>
+			<input class="publish" type="submit" value="" />
+			<div style="clear:both;"></div> -->
+
+			<!--省市的二级联动-->
+			<div class="CityCenter ">
+				<span>论坛：</span>
+				<select id="selectp" name="module_id" onchange="selectcity('selectp','selectc')">
+					<option value="none">选择论坛</option>
+				</select>
+				<span>分区：</span>
+				<select id="selectc" name="area">
+					<option value="none">选择分区</option>
+				</select>
+
+				<input class="title" placeholder="请输入标题" name="pub_title" type="text" />
+				<textarea name="pub_content" class="content" placeholder="请输入内容"></textarea>
+				<input class="publish" type="submit" value="" />
+				<div style="clear:both;"></div>
+			</div>
+
+		</form>
+	</div>
+	<div id="footer" class="auto">
+		<div class="bottom">
+			<a>Here share your mind</a>
+		</div>
+		<div class="copyright">Powered by Lihui ©2020</div>
+	</div>
+
+
+	<!--初始化城市联动菜单-->
+	<script language="javascript">
+		firstArea("selectp", 0);
+	</script>
+</body>
+
+</html>

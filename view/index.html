@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html>
+<head> 
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title>Mind worse Share</title>
+	<meta name="keywords" content="关键字列表" />
+	<meta name="description" content="网页描述" />
+     <!-- 用PHP常量定义 引入样式文件 -->
+	<link rel="stylesheet" type="text/css" href="<?php echo DIR_PUBLIC;?>/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo DIR_PUBLIC;?>/css/index.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo DIR_PUBLIC;?>/css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo DIR_PUBLIC;?>/css/weather_index.css" />
+
+	<style type="text/css"></style>
+	<script type="text/javascript"></script>
+	
+   
+</head>
+<body>
+	<div class="header_wrap">
+		<div id="header" class="auto">
+			<div class="logo">Mind worse Share</div>
+			<div class="nav">
+				<a class="hover">首页</a>
+				<?php  
+				  	if(isset($_COOKIE['user'])) { 
+					  if($_COOKIE['user']=='super_root')
+					  echo '<a href=./root.php>用户管理</a>';
+				} 
+			
+				?>
+
+			</div>
+			<div class="serarch">
+				<form>
+					<input class="keyword" type="text" name="keyword" placeholder="搜索其实很简单" />
+					<input class="submit" type="submit" name="submit" value="" />
+				</form>
+			</div>
+			<div class="login" style="width: 400px;">
+			<!-- 	用户信息登录判断 -->
+				  <?php  
+				  	if(isset($_COOKIE['user'])) {
+				  		echo '<a href="./model/userInfo.php">&nbsp;欢迎会员' . ' ' . $_COOKIE['user'] . '</a>' . ' ' . '<a href="./model/logout.php?page=index">注销</a>';
+				  }else {
+				  	    echo '<a href="./model/login.php">&nbsp;' . '登录' . '</a>' . ' ' . '<a href="./model/register.php">注册</a>&nbsp;'.'<a href="./model/logout.php">登出</a>&nbsp;';
+				} 
+				   ?>
+				 <a href="./model/publish.php">我要发帖</a>  
+			</div>
+		</div>
+	</div>
+	<div style="margin-top:100px;"></div>
+
+
+
+	
+	
+	<!-- 天气窗口 -->
+	<div  id="app">
+		<div class="search_form">
+		  <div class="form_group">
+			<input type="text" class="input_txt" placeholder="这里可以查询天气哦，输入你的城市名~" v-model="city" @keyup.enter="queryWeather" />
+			<button class="input_sub" @click="queryWeather">
+			  搜 索
+			</button>
+		  </div>
+		  <div class="hotkey">
+			<!-- <a href="javascript:;" @click="clickSearch('北京')">北京</a>
+			  <a href="javascript:;" @click="clickSearch('上海')">上海</a>
+			  <a href="javascript:;" @click="clickSearch('广州')">广州</a>
+			  <a href="javascript:;" @click="clickSearch('深圳')">深圳</a> -->
+			<a href="javascript:;" v-for="city in hotCitys" @click="clickSearch(city)">{{ city }}</a>
+		  </div>
+		</div>
+		<ul class="weather_list">
+		  <li v-for="(item,index) in forecastList" :key="item.date" :style="{transitionDelay:index*100+'ms'}">
+			<div class="info_type">
+			  <span class="iconfont">{{ item.type }}</span>
+			</div>
+			<div class="info_temp">
+			  <b>{{ item.low}}</b>
+			  ~
+			  <b>{{ item.high}}</b>
+	
+			</div>
+			<div class="info_date">
+			  <span>{{ item.date }}</span>
+			</div>
+		  </li>
+		</ul>
+	  </div>
+ <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+
+ <script type="text/javascript" src="<?php echo DIR_ROOT ; ?>vue.js"></script>;
+ <script>Vue.config.productionTip=false</script>
+
+ <!-- 官网提供的 axios 在线地址 -->
+ <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+ <script>
+   new Vue({
+	 el: "#app",
+	 data: {
+	   city: "",
+	   forecastList: [],
+	   hotCitys: ["北京", "上海", "广州", "深圳"]
+	 },
+	 methods: {
+	   queryWeather() {
+		 this.forecastList = [];
+		 axios
+		   .get('http://wthrcdn.etouch.cn/weather_mini?city='+this.city)
+		   .then(res => {
+			 console.log(res);
+			 this.forecastList = res.data.data.forecast;
+		   })
+		   .catch(err => {
+			 console.log(err);
+		   })
+		   .finally(() => { });
+	   },
+	   clickSearch(city) {
+		 this.city = city;
+		 this.queryWeather();
+	   }
+	 }
+   });
+ </script>
+ 
+
+
+
+
+
+
+
+
+
+ <div class="box auto">
+	<div class="title">
+		web技术
+	</div>
+	<div class="classList">
+		<div class="childBox new">
+			<h2><a href="<?php echo DIR_MODEL;?>list_father.php?module_id=web技术&area=Vue大法好">Vue大法好</a> <span>(今日<?php echo $cnt_vue_tdy;?>)</span></h2>
+			帖子：<?php echo $cnt_vue;?><br />
+		</div>
+		<div class="childBox new">
+			<h2><a href="<?php echo DIR_MODEL;?>list_father.php?module_id=web技术&area=PHP真香">PHP真香</a> <span>(今日<?php echo $cnt_php_tdy;?>)</span></h2>
+			帖子：<?php echo $cnt_php;?><br />
+		</div>
+		<div class="childBox new">
+			<h2><a href="<?php echo DIR_MODEL;?>list_father.php?module_id=web技术&area=Uni_App专区">Uni_App专区</a> <span>(今日<?php echo $cnt_uni_tdy;?>)</span></h2>
+			帖子：<?php echo $cnt_uni;?><br />
+		</div>
+		<div class="childBox new">
+			<h2><a href="<?php echo DIR_MODEL;?>list_father.php?module_id=web技术&area=Spring_boot">Spring_boot</a> <span>(今日<?php echo $cnt_spring_tdy;?>)</span></h2>
+			帖子：<?php echo $cnt_spring;?><br />
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+</div>
+
+	
+	<div class="box auto">
+		<div class="title">
+			军事
+		</div>
+		<div class="classList">
+			<div class="childBox new">
+				<h2><a href="<?php echo DIR_MODEL;?>list_father.php?module_id=军事&area=神装铁甲">神装铁甲</a> <span>(今日<?php echo $cnt_armor_tdy;?>)</span></h2>
+				帖子：<?php echo $cnt_armor;?><br />
+			</div>
+			<div class="childBox new">
+				<h2><a href="<?php echo DIR_MODEL;?>list_father.php?module_id=军事&area=枪械之美">枪械之美</a> <span>(今日<?php echo $cnt_gun_tdy;?>)</span></h2>
+				帖子：<?php echo $cnt_gun;?><br />
+			</div>
+			<div class="childBox lock">
+				<h2><a href="<?php echo DIR_MODEL;?>list_father.php?module_id=军事&area=军史解密">军史解密</a> <span>(今日<?php echo $cnt_history_tdy;?>)</span></h2>
+				帖子：<?php echo $cnt_history;?><br />
+			</div>
+			<div class="childBox new">
+				<h2><a href="<?php echo DIR_MODEL;?>list_father.php?module_id=军事&area=冲锋号">冲锋号</a> <span>(今日<?php echo $cnt_horn_tdy;?>)</span></h2>
+				帖子：<?php echo $cnt_horn;?><br />
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+
+
+	<div class="box auto">
+		<div class="title">
+			TJ新天地
+		</div>
+		<div class="classList">
+			<div style="padding:10px 0;">暂无该模块</div>
+			<div style="clear:both;"></div>
+		</div>
+	</div>
+
+	<div id="hot" class="auto">
+		<div class="title">消息</div>
+		<ul class="newslist">
+			<!-- 20条 -->
+			
+			
+			<li><a href="#">[要闻]</a> <a href="#">我校7.2日顺利举办毕业晚会</a></li>
+			<li><a href="#">[要闻]</a> <a href="#">北京新增几名新冠患者</a></li>
+			<li><a href="#">[要闻]</a> <a href="#">一小学6年级女生因不满成绩跳楼！</a></li>
+			<li><a href="#">[要闻]</a> <a href="#">小伙自制2.5英寸迷你电脑，效果杠杠的</a></li>
+			<li><a href="#">[今日话题]</a> <a href="#">前端？后端？</a></li>
+			<li><a href="#">[今日话题]</a> <a href="#">Spring优化，你懂多少？</a></li>	
+		</ul>
+		<div style="clear:both;"></div>
+	</div>
+	<div id="footer" class="auto">
+		<div class="bottom">
+			<a>Here share your mind</a>
+		</div>
+		<div class="copyright">Powered by Lihui ©2020</div>
+	</div>
+</body>
+</html>

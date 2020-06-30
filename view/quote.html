@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title>Mind worse Share</title>
+	<meta name="keywords" content="关键字列表" />
+	<meta name="description" content="网页描述" />
+	<link rel="stylesheet" type="text/css" href="../public/css/public.css" />
+	<link rel="stylesheet" type="text/css" href="../public/css/publish.css" />
+	<link rel="stylesheet" type="text/css" href="../public/css/cube.css" />
+	<style type="text/css"></style>
+	<script type="text/javascript"></script>
+</head>
+<body>
+	<div class="header_wrap">
+		<div id="header" class="auto">
+			<div class="logo">Mind worse Share</div>
+			<div class="nav">
+				<a class="hover">首页</a>
+			</div>
+			<div class="serarch">
+				<form>
+					<input class="keyword" type="text" name="keyword" placeholder="搜索其实很简单" />
+					<input class="submit" type="submit" name="submit" value="" />
+				</form>
+			</div>
+			<div class="login">
+				<a>登录</a>&nbsp;
+				<a>注册</a>
+			</div>
+		</div>
+	</div>
+	<div style="margin-top:55px;"></div>
+	<div id="position" class="auto">
+		 <a>首页</a> &gt; <a><?php echo $module_id;?></a> &gt; <a><?php echo $area;?></a> &gt;
+	</div>
+	<div id="publish">
+		<div>匿名: </div>
+		<div class="quote">
+			<p class="title">引用1楼 匿名 发表的: </p>
+			<?php echo $pub_content;?>
+		</div>
+		<form method="post" action="./reply_deal.php">
+			<input type="hidden" name='pub_id' value=<?php echo $pub_id; ?> />
+			<input type="hidden" name='quote_flag' value=<?php echo $quote_flag; ?> />
+			<input type="hidden" name='floor' value=<?php echo $floor; ?> />
+			<input type="hidden" name='rep_pub_id' value=<?php echo $rep_pub_id; ?> />
+			<input type="hidden" name='rep_rep_content' value=<?php echo $rep_rep_content; ?> />
+			<textarea name="rep_content" class="content"></textarea>
+			<input class="reply" type="submit" name="submit" value="" />
+			<div style="clear:both;"></div>
+		</form>
+	</div>
+	<div id="footer" class="auto">
+		<div class="bottom">
+			<a>Here share your mind</a>
+		</div>
+		<div class="copyright">Powered by Lihui ©2020</div>
+	</div>
+
+
+	<div class="box-canvas">
+		<div class="cube">
+			<div class="side back"></div>
+			<div class="side left"></div>
+			<div class="side right"></div>
+			<div class="side top"></div>
+			<div class="side bottom"></div>
+			<div class="side front"></div>
+		</div>
+	</div>
+</body>
+</html>

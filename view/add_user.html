@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title>Mind worse Share</title>
+	<meta name="keywords" content="关键字列表" />
+	<meta name="description" content="网页描述" />
+	<link rel="stylesheet" type="text/css" href="<?php echo '.' . DIR_PUBLIC;?>/css/public.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo '.' . DIR_PUBLIC;?>/css/publish.css" />
+    <link  rel="stylesheet" type="text/css" href="<?php echo '.' . DIR_PUBLIC;?>/css/admin.css">
+	<style type="text/css"></style>
+	<script type="text/javascript"></script>
+
+    
+
+    <script type="text/javascript">
+		function check(){
+			//用户名
+			var user_name=document.getElementById('user');
+			if(user_name.value=='')
+				{
+					alert("用户名不能为空!");
+					user_name.focus();
+					return false;
+				}
+			var password=document.getElementById('password');
+			if(password.value=='')
+				{
+					alert("密码不能为空！");
+					password.focus();
+					return false;
+				}
+		}
+		function func()
+		{
+			location.href="./root.php";
+		}
+    </script>
+</head>
+
+<body>
+	<div class="header_wrap">
+		<div id="header" class="auto">
+			<div class="logo">Mind worse Share</div>
+			<div class="nav">
+				<a class="hover" href="../index.php">首页</a>
+				<?php  
+				  	if(isset($_COOKIE['user'])) {
+					  if($_COOKIE['user']=='super_root')
+					  echo '<a href=./root.php>用户管理</a>';
+				} 
+			
+				?>
+			</div>
+			<div class="serarch">
+				<form>
+					<input class="keyword" type="text" name="keyword" placeholder="搜索其实很简单" />
+					<input class="submit" type="submit" name="submit" value="" />
+				</form>
+			</div>
+			<div class="login" style="width: 400px;">
+				<!-- 	用户信息登录判断 -->
+				<?php  
+				  	if(isset($_COOKIE['user'])) {
+				  		echo '<a href="./userInfo.php">&nbsp;欢迎会员' . ' ' . $_COOKIE['user'] . '</a>' . ' ' . '<a href="./logout.php?page=publish">注销</a>';
+				  }else {
+				  	    echo '<a href="./login.php">&nbsp;' . '登录' . '</a>' . ' ' . '<a href="./register.php">注册</a>&nbsp;';
+				} 
+				   ?>
+			</div>
+		</div>
+	</div>
+	<div style="margin-top:55px;"></div>
+	<div id="position" class="auto">
+		<a href="<?php echo '.'.DIR_ROOT;?>index.php">首页</a> &gt;
+	</div>
+
+
+	<div id="publish" style="text-align: center;">
+
+
+		<h3 align="center">添加用户</h3>
+	<?php if(!empty($message)): ?>
+		<p><?= $message ?></p>
+	<?php endif; ?>
+<form id="add_tb" method="post" action="./add_user_deal.php" onSubmit="return check()">
+	<table border="1">
+  <tbody>
+
+    <tr>
+      <td width="100">用户名</td>
+      <td width="190"><input type="text" name="user_name" id="user"></td>
+    
+    </tr>
+    <tr>
+      <td>密码</td>
+      <td><input type="text" name="SN" id="password"></td>
+    
+    </tr>
+  </tbody>
+</table><br>
+	
+	<input type="submit" value="提交" name="submit">
+	<input type="button" value="返回" class="button" onClick="func()">
+	
+</form>
+
+	</div>
+	<div id="footer" class="auto">
+		<div class="bottom">
+			<a>Here share your mind</a>
+		</div>
+		<div class="copyright">Powered by Lihui ©2020</div>
+	</div>
+
+
+	
+</body>
+
+</html>
